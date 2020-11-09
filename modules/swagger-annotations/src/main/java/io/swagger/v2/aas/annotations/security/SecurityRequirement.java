@@ -1,0 +1,44 @@
+package io.swagger.v2.aas.annotations.security;
+
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Repeatable;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.ElementType.METHOD;
+
+import io.swagger.v2.aas.annotations.AsyncAPIDefinition;
+import io.swagger.v2.aas.annotations.Operation;
+
+/**
+ * The annotation may be applied at class or method level, or in {@link Operation#security()} ()} to define security requirements for the
+ * single operation (when applied at method level) or for all operations of a class (when applied at class level).
+ * <p>It can also be used in {@link AsyncAPIDefinition#security()} to define spec level security.</p>
+ *
+ * @see <a target="_new" href="https://github.com/OAI/OpenAPI-Specification/blob/3.0.1/versions/3.0.1.md#securityRequirementObject">Security Requirement (OpenAPI specification)</a>
+ * @see AsyncAPIDefinition
+ * @see Operation
+ **/
+@Target({METHOD, TYPE, ANNOTATION_TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Repeatable(SecurityRequirements.class)
+@Inherited
+public @interface SecurityRequirement {
+    /**
+     * This name must correspond to a declared SecurityRequirement.
+     *
+     * @return String name
+     */
+    String name();
+
+    /**
+     * If the security scheme is of type "oauth2" or "openIdConnect", then the value is a list of scope names required for the execution.
+     * For other security scheme types, the array must be empty.
+     *
+     * @return String array of scopes
+     */
+    String[] scopes() default {};
+}
